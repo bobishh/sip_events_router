@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>WS SANDBOX</title>
+        <script>
+            var handleEvent = function(event) {
+                if (event.event_type == 'connection') {
+                  appendConnection(event);
+                } else {
+                  appendMessage(event);
+                }
+            };
+            var appendConnection = function(connection) {
+                connectionEl = document.createElement('li')
+                connectionEl.innerHTML = connection.from
+                document.getElementById('connections').appendChild(connectionEl);
+            };
+            var appendMessage = function(message) {
+                messageEl = document.createElement('div')
+                messageEl.innerHTML = 'Event: '
+                                    + message.event_type
+                                    + ' | Source number: '
+                                    + message.from
+                document.getElementById('messages').appendChild(messageEl);
+            };
+
+            var origin = window.location.origin.replace('http', 'ws');
+            var channel = Math.ceil(Math.random()*99999999);
+            var socket = new WebSocket(origin + '/' + channel);
+
+            socket.onopen = function(e) {
+                console.log('calls websocket connected:', e, 'channel number: ', channel);
+            };
+            socket.onmessage = function(e) {
+                console.log('message: ', JSON.parse(e.data))
+                handleEvent(JSON.parse(e.data))
+            };
+        </script>
+    </head>
+    <body>
+        <h1> messages: </h1>
+        <div id='messages'></div>
+    </body>
+</html>

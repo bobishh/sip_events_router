@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  sinatra:
+    build: .
+    ports:
+      - '4242:4242'
+    env_file: env
+    links:
+      - redis:radish
+  redis:
+    image: redis:3.0-alpine

@@ -1,0 +1,4 @@
+REDIS_CONNECTION=redis://radish:6379
+REDIS_QUEUE_NAME=mango_calls
+MANGO_API_KEY=blablabla
+MANGO_API_SALT=blablabla-salt
